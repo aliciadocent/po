@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://instructure-uploads-eu.s3.eu-west-1.amazonaws.com/account_24640000000000001/attachments/855227/mobile.css">
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.category-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.category-card:hover {
+    transform: scale(1.02);
+}
+.value-option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.value-option:hover {
+    transform: scale(1.05);
+}
+.top5-option {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.top5-option:hover {
+    transform: scale(1.05);
+}
+button {
+    transition: all 0.3s ease;
+}
+button:not(:disabled):hover {
+    transform: scale(1.05);
+}
+button:disabled {
+    cursor: not-allowed !important;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div style="background: linear-gradient(135deg, #6D1E70 0%, #C4007A 100%); color: white; padding: 50px 40px; border-radius: 12px; margin-bottom: 40px;">
+    <h1 style="font-size: 2.8em; margin: 0 0 15px 0;">⭐ Core Values Discovery Game</h1>
+    <p style="font-size: 1.3em; margin: 0;">Ontdek Jouw Persoonlijke Kernwaarden | Discover Your Personal Core Values</p>
+</div>
+
+<!-- Progress Bar -->
+<div id="progress-container" style="background: white; padding: 20px 40px; border-radius: 12px; margin-bottom: 30px; display: none;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <span style="font-weight: bold; color: #6D1E70;">Your Progress</span>
+        <span id="progress-text" style="color: #58595B;">Round 1 of 3</span>
+    </div>
+    <div style="background: #E0E0E0; height: 12px; border-radius: 6px; overflow: hidden;">
+        <div id="progress-bar" style="background: linear-gradient(90deg, #6D1E70 0%, #C4007A 100%); height: 100%; width: 33%; transition: width 0.3s ease;"></div>
+    </div>
+</div>
+
+<!-- Introduction Screen -->
+<div id="intro-screen" style="background: white; padding: 40px; border-radius: 12px; margin-bottom: 30px;">
+    <h2 style="color: #6D1E70; font-size: 1.9em; margin: 0 0 20px 0;">🎯 Welcome to the Core Values Game!</h2>
+    <p style="font-size: 1.05em; line-height: 1.8; color: #58595B; margin: 0 0 15px 0;">
+        <strong>Core values</strong> are the fundamental beliefs that guide your decisions, behavior, and career choices. This interactive game helps you discover your <strong>top 5 core values</strong> through three engaging rounds.
+    </p>
+    
+    <div style="background: #F3E5F5; padding: 25px; border-radius: 10px; margin: 20px 0;">
+        <h3 style="color: #6D1E70; margin: 0 0 15px 0;">How it works:</h3>
+        <div style="display: grid; gap: 15px;">
+            <div style="display: flex; align-items: start;">
+                <div style="background: #00B8E6; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; font-weight: bold;">1</div>
+                <div>
+                    <strong style="color: #00B8E6;">Category Selection:</strong> Choose 6 value categories that resonate with you
+                </div>
+            </div>
+            <div style="display: flex; align-items: start;">
+                <div style="background: #C4007A; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; font-weight: bold;">2</div>
+                <div>
+                    <strong style="color: #C4007A;">Specific Values:</strong> Pick 2-3 specific values from each category
+                </div>
+            </div>
+            <div style="display: flex; align-items: start;">
+                <div style="background: #FFB800; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; flex-shrink: 0; font-weight: bold;">3</div>
+                <div>
+                    <strong style="color: #FFB800;">Final Ranking:</strong> Use reflection questions to identify your top 5
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #FFF9E6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <strong style="color: #FFB800;">⏱️ Time needed:</strong> 15-20 minutes
+    </div>
+
+    <button onclick="startGame()" style="background: linear-gradient(135deg, #6D1E70 0%, #C4007A 100%); color: white; border: none; padding: 15px 40px; font-size: 1.2em; border-radius: 25px; cursor: pointer; font-weight: bold; margin-top: 20px;">
+        Start Game ▶
+    </button>
+</div>
+
+<!-- Round 1: Category Selection -->
+<div id="round1" style="display: none;">
+    <div style="background: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; border-left: 6px solid #00B8E6;">
+        <div style="background: #E3F2FD; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <div style="background: #00B8E6; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; margin-right: 20px; flex-shrink: 0;">1</div>
+                <h2 style="color: #6D1E70; font-size: 1.9em; margin: 0;">Round 1: Category Selection</h2>
+            </div>
+            <p style="color: #58595B; font-size: 1.05em; margin: 0;">Select exactly 6 categories that resonate most with you</p>
+        </div>
+
+        <div id="category-counter" style="background: #FFF9E6; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; text-align: center;">
+            <strong style="color: #FFB800; font-size: 1.2em;">Selected: <span id="selected-count">0</span> / 6</strong>
+        </div>
+
+        <div id="categories-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
+            <!-- Categories will be populated by JavaScript -->
+        </div>
+
+        <div style="text-align: center;">
+            <button id="round1-next" onclick="nextToRound2()" disabled style="background: #C4007A; color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 25px; font-weight: bold; opacity: 0.5;">
+                Continue to Round 2 →
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Round 2: Specific Values -->
+<div id="round2" style="display: none;">
+    <div style="background: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; border-left: 6px solid #C4007A;">
+        <div style="background: #FCE4EC; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <div style="background: #C4007A; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; margin-right: 20px; flex-shrink: 0;">2</div>
+                <h2 style="color: #6D1E70; font-size: 1.9em; margin: 0;">Round 2: Specific Values</h2>
+            </div>
+            <p style="color: #58595B; font-size: 1.05em; margin: 0;">For each category, select 2-3 specific values</p>
+        </div>
+
+        <div id="values-counter" style="background: #FFF9E6; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; text-align: center;">
+            <strong style="color: #FFB800; font-size: 1.2em;">Total selected: <span id="values-count">0</span> values</strong>
+        </div>
+
+        <div id="values-container">
+            <!-- Selected categories and their values will be populated here -->
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="backToRound1()" style="background: #E0E0E0; color: #58595B; border: none; padding: 12px 30px; font-size: 1em; border-radius: 25px; cursor: pointer; margin-right: 15px;">
+                ← Back
+            </button>
+            <button id="round2-next" onclick="nextToRound3()" disabled style="background: #FFB800; color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 25px; font-weight: bold; opacity: 0.5;">
+                Continue to Round 3 →
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Round 3: Final Ranking -->
+<div id="round3" style="display: none;">
+    <div style="background: white; padding: 40px; border-radius: 12px; margin-bottom: 30px; border-left: 6px solid #FFB800;">
+        <div style="background: #FFF9E6; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                <div style="background: #FFB800; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5em; margin-right: 20px; flex-shrink: 0;">3</div>
+                <h2 style="color: #6D1E70; font-size: 1.9em; margin: 0;">Round 3: Final Ranking</h2>
+            </div>
+            <p style="color: #58595B; font-size: 1.05em; margin: 0;">Narrow down to your Top 5 Core Values</p>
+        </div>
+
+        <div style="background: #F3E5F5; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+            <h3 style="color: #6D1E70; margin: 0 0 20px 0;">🤔 Reflection Questions</h3>
+            <p style="color: #58595B; line-height: 1.8; margin: 0 0 15px 0;">
+                Read these questions carefully. They will help you identify which values are truly core to who you are:
+            </p>
+            
+            <div style="display: grid; gap: 15px;">
+                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 3px solid #C4007A;">
+                    <strong style="color: #C4007A; display: block; margin-bottom: 8px;">💪 The Energy Test</strong>
+                    <p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">
+                        Which values give you the most energy when you're living by them?
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 3px solid #00B8E6;">
+                    <strong style="color: #00B8E6; display: block; margin-bottom: 8px;">😤 The Frustration Test</strong>
+                    <p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">
+                        When have you felt most frustrated? Which values were being violated?
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 3px solid #00A65A;">
+                    <strong style="color: #00A65A; display: block; margin-bottom: 8px;">😊 The Pride Test</strong>
+                    <p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">
+                        When did you feel most proud? Which values were you honoring?
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 3px solid #FFB800;">
+                    <strong style="color: #FFB800; display: block; margin-bottom: 8px;">⚖️ The Choice Test</strong>
+                    <p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">
+                        Which values would make you choose a lower-paying job over a higher-paying one?
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 20px; border-radius: 8px; border-left: 3px solid #6D1E70;">
+                    <strong style="color: #6D1E70; display: block; margin-bottom: 8px;">🚫 The Non-Negotiable Test</strong>
+                    <p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">
+                        Which values are you unwilling to compromise on, no matter the cost?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #E8F5E9; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
+            <h3 style="color: #00A65A; margin: 0 0 15px 0;">✍️ Select Your Top 5 Core Values</h3>
+            <p style="color: #58595B; line-height: 1.8; margin: 0 0 20px 0;">
+                Click on 5 values below that feel most essential to who you are:
+            </p>
+            
+            <div id="top5-selection" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px;">
+                <!-- Clickable values will appear here -->
+            </div>
+
+            <div id="top5-counter" style="text-align: center; margin-top: 20px;">
+                <strong style="color: #00A65A; font-size: 1.2em;">Selected: <span id="top5-count">0</span> / 5</strong>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="backToRound2()" style="background: #E0E0E0; color: #58595B; border: none; padding: 12px 30px; font-size: 1em; border-radius: 25px; cursor: pointer; margin-right: 15px;">
+                ← Back
+            </button>
+            <button id="round3-finish" onclick="showResults()" disabled style="background: #00A65A; color: white; border: none; padding: 15px 40px; font-size: 1.1em; border-radius: 25px; font-weight: bold; opacity: 0.5;">
+                See My Results! 🎉
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Results Screen -->
+<div id="results" style="display: none;">
+    <div style="background: linear-gradient(135deg, #6D1E70 0%, #C4007A 100%); color: white; padding: 50px 40px; border-radius: 12px; margin-bottom: 30px; text-align: center;">
+        <h1 style="font-size: 2.5em; margin: 0 0 15px 0;">🎉 Your Core Values!</h1>
+        <p style="font-size: 1.2em; margin: 0;">These are the values that define you</p>
+    </div>
+
+    <div id="results-content" style="background: white; padding: 40px; border-radius: 12px; margin-bottom: 30px;">
+        <!-- Results will be populated here -->
+    </div>
+
+    <div style="background: #F3E5F5; padding: 30px; border-radius: 12px; margin-bottom: 30px;">
+        <h3 style="color: #6D1E70; margin: 0 0 20px 0;">📝 What To Do Next:</h3>
+        <div style="display: grid; gap: 15px;">
+            <div style="background: white; padding: 20px; border-radius: 8px;">
+                <strong style="color: #C4007A;">1. Document them:</strong>
+                <p style="margin: 5px 0 0 0; color: #58595B;">Write down what each value means to you and why it's important</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 8px;">
+                <strong style="color: #00B8E6;">2. Use them in decisions:</strong>
+                <p style="margin: 5px 0 0 0; color: #58595B;">When choosing projects or career paths, check if they align with your values</p>
+            </div>
+            <div style="background: white; padding: 20px; border-radius: 8px;">
+                <strong style="color: #FFB800;">3. Add to your portfolio:</strong>
+                <p style="margin: 5px 0 0 0; color: #58595B;">Include your core values in your portfolio and explain how they guide your work</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button onclick="restartGame()" style="background: #6D1E70; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 25px; cursor: pointer; margin-right: 15px;">
+            🔄 Start Over
+        </button>
+        <button onclick="window.print()" style="background: #00A65A; color: white; border: none; padding: 12px 30px; font-size: 1em; border-radius: 25px; cursor: pointer;">
+            🖨️ Print Results
+        </button>
+    </div>
+</div>
+
+<script type="text/javascript">
+// Game data
+var categories = [
+    {id: 'achievement', name: 'Achievement & Excellence', icon: '🎯', description: 'Striving for success, mastery, quality, and continuous improvement', color: '#6D1E70', bgColor: '#F3E5F5', values: ['Excellence', 'Quality', 'Ambition', 'Performance', 'Mastery', 'Professionalism', 'Results-oriented', 'Continuous improvement']},
+    {id: 'connection', name: 'Connection & Relationships', icon: '🤝', description: 'Building meaningful relationships, collaboration, teamwork, community', color: '#00B8E6', bgColor: '#E3F2FD', values: ['Collaboration', 'Teamwork', 'Friendship', 'Belonging', 'Community', 'Connection', 'Empathy', 'Solidarity']},
+    {id: 'creativity', name: 'Creativity & Innovation', icon: '💡', description: 'Creating new things, originality, innovation, imagination', color: '#00A65A', bgColor: '#E8F5E9', values: ['Creativity', 'Innovation', 'Originality', 'Imagination', 'Artistic expression', 'Pioneering', 'Exploration', 'Transformation']},
+    {id: 'growth', name: 'Growth & Learning', icon: '🌱', description: 'Personal development, continuous learning, curiosity', color: '#FFB800', bgColor: '#FFF9E6', values: ['Personal growth', 'Learning', 'Curiosity', 'Development', 'Knowledge', 'Wisdom', 'Self-improvement', 'Insight']},
+    {id: 'service', name: 'Service & Impact', icon: '❤️', description: 'Helping others, making a difference, contributing to society', color: '#C4007A', bgColor: '#FCE4EC', values: ['Service', 'Helping others', 'Compassion', 'Making a difference', 'Social impact', 'Contribution', 'Caring', 'Generosity']},
+    {id: 'integrity', name: 'Integrity & Ethics', icon: '🔒', description: 'Honesty, fairness, transparency, doing the right thing', color: '#6D1E70', bgColor: '#F3E5F5', values: ['Integrity', 'Honesty', 'Transparency', 'Fairness', 'Justice', 'Reliability', 'Trustworthiness', 'Accountability']},
+    {id: 'independence', name: 'Independence & Freedom', icon: '🚀', description: 'Autonomy, self-direction, personal choice, flexibility', color: '#00B8E6', bgColor: '#E3F2FD', values: ['Autonomy', 'Independence', 'Freedom', 'Self-direction', 'Flexibility', 'Self-reliance', 'Personal choice', 'Free will']},
+    {id: 'balance', name: 'Balance & Well-being', icon: '🧘', description: 'Health, harmony, peace of mind, work-life balance', color: '#00A65A', bgColor: '#E8F5E9', values: ['Balance', 'Well-being', 'Health', 'Harmony', 'Peace', 'Calmness', 'Tranquility', 'Serenity']},
+    {id: 'adventure', name: 'Adventure & Challenge', icon: '🎢', description: 'Taking risks, seeking excitement, overcoming obstacles', color: '#FFB800', bgColor: '#FFF9E6', values: ['Adventure', 'Challenge', 'Risk-taking', 'Excitement', 'Courage', 'Bravery', 'Pushing boundaries', 'Daring']},
+    {id: 'stability', name: 'Stability & Security', icon: '🏛️', description: 'Safety, predictability, order, consistency', color: '#C4007A', bgColor: '#FCE4EC', values: ['Stability', 'Security', 'Safety', 'Predictability', 'Order', 'Consistency', 'Reliability', 'Financial security']},
+    {id: 'leadership', name: 'Leadership & Influence', icon: '👑', description: 'Leading others, making decisions, authority, responsibility', color: '#6D1E70', bgColor: '#F3E5F5', values: ['Leadership', 'Influence', 'Authority', 'Responsibility', 'Decision-making', 'Guidance', 'Empowerment', 'Mentorship']},
+    {id: 'authenticity', name: 'Authenticity & Expression', icon: '🎭', description: 'Being yourself, genuine expression, staying true to who you are', color: '#00B8E6', bgColor: '#E3F2FD', values: ['Authenticity', 'Self-expression', 'Being yourself', 'Genuineness', 'Openness', 'Uniqueness', 'Individuality', 'True to self']}
+];
+
+var gameState = {selectedCategories: [], selectedValues: {}, top5Values: []};
+
+function startGame() {
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'block';
+    document.getElementById('round1').style.display = 'block';
+    renderCategories();
+}
+
+function renderCategories() {
+    var grid = document.getElementById('categories-grid');
+    var html = '';
+    for (var i = 0; i < categories.length; i++) {
+        var cat = categories[i];
+        html += '<div class="category-card" data-id="' + cat.id + '" onclick="toggleCategory(\'' + cat.id + '\')" style="background: ' + cat.bgColor + '; padding: 25px; border-radius: 10px; border-left: 4px solid ' + cat.color + '; border: 2px solid transparent;" id="card-' + cat.id + '">';
+        html += '<div style="display: flex; align-items: start; margin-bottom: 10px;">';
+        html += '<input type="checkbox" id="cat-' + cat.id + '" class="category-checkbox" style="margin-right: 10px; margin-top: 5px; transform: scale(1.3); pointer-events: none;">';
+        html += '<label style="flex: 1;"><strong style="color: ' + cat.color + '; font-size: 1.2em; display: block;">' + cat.icon + ' ' + cat.name + '</strong></label>';
+        html += '</div>';
+        html += '<p style="margin: 0; color: #58595B; line-height: 1.7; font-size: 0.95em;">' + cat.description + '</p>';
+        html += '</div>';
+    }
+    grid.innerHTML = html;
+}
+
+function toggleCategory(catId) {
+    var checkbox = document.getElementById('cat-' + catId);
+    var card = document.getElementById('card-' + catId);
+    var cat = null;
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].id === catId) {
+            cat = categories[i];
+            break;
+        }
+    }
+    
+    if (checkbox.checked) {
+        checkbox.checked = false;
+        card.style.borderColor = 'transparent';
+        card.style.transform = 'scale(1)';
+        var idx = gameState.selectedCategories.indexOf(catId);
+        if (idx > -1) gameState.selectedCategories.splice(idx, 1);
+    } else {
+        if (gameState.selectedCategories.length < 6) {
+            checkbox.checked = true;
+            card.style.borderColor = cat.color;
+            card.style.transform = 'scale(1.02)';
+            gameState.selectedCategories.push(catId);
+        }
+    }
+    
+    document.getElementById('selected-count').textContent = gameState.selectedCategories.length;
+    
+    var allCards = document.querySelectorAll('.category-card');
+    for (var i = 0; i < allCards.length; i++) {
+        var c = allCards[i];
+        var cb = c.querySelector('.category-checkbox');
+        if (gameState.selectedCategories.length >= 6 && !cb.checked) {
+            c.style.opacity = '0.5';
+        } else {
+            c.style.opacity = '1';
+        }
+    }
+    
+    var nextBtn = document.getElementById('round1-next');
+    if (gameState.selectedCategories.length === 6) {
+        nextBtn.disabled = false;
+        nextBtn.style.cursor = 'pointer';
+        nextBtn.style.opacity = '1';
+    } else {
+        nextBtn.disabled = true;
+        nextBtn.style.cursor = 'not-allowed';
+        nextBtn.style.opacity = '0.5';
+    }
+}
+
+function nextToRound2() {
+    document.getElementById('round1').style.display = 'none';
+    document.getElementById('round2').style.display = 'block';
+    document.getElementById('progress-text').textContent = 'Round 2 of 3';
+    document.getElementById('progress-bar').style.width = '66%';
+    renderValuesSelection();
+}
+
+function renderValuesSelection() {
+    var container = document.getElementById('values-container');
+    gameState.selectedValues = {};
+    var html = '';
+    
+    for (var i = 0; i < gameState.selectedCategories.length; i++) {
+        var catId = gameState.selectedCategories[i];
+        var cat = null;
+        for (var j = 0; j < categories.length; j++) {
+            if (categories[j].id === catId) {
+                cat = categories[j];
+                break;
+            }
+        }
+        
+        html += '<details open style="background: ' + cat.bgColor + '; padding: 20px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid ' + cat.color + ';">';
+        html += '<summary style="cursor: pointer; font-size: 1.2em; color: ' + cat.color + '; font-weight: bold; margin-bottom: 15px;">';
+        html += cat.icon + ' ' + cat.name + ' <span class="category-value-count" id="count-' + catId + '" style="color: #58595B; font-size: 0.9em;">(0 selected)</span>';
+        html += '</summary>';
+        html += '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 15px;">';
+        
+        for (var k = 0; k < cat.values.length; k++) {
+            var val = cat.values[k];
+            html += '<div class="value-option" id="val-' + catId + '-' + k + '" onclick="toggleValue(\'' + catId + '\', ' + k + ', \'' + val.replace(/'/g, "\\'") + '\')" style="background: white; padding: 12px; border-radius: 6px; border: 2px solid transparent;">';
+            html += '<input type="checkbox" class="value-checkbox" style="margin-right: 8px; pointer-events: none;"> ' + val;
+            html += '</div>';
+        }
+        
+        html += '</div></details>';
+        gameState.selectedValues[catId] = [];
+    }
+    
+    container.innerHTML = html;
+}
+
+function toggleValue(catId, idx, val) {
+    var option = document.getElementById('val-' + catId + '-' + idx);
+    var checkbox = option.querySelector('.value-checkbox');
+    var cat = null;
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].id === catId) {
+            cat = categories[i];
+            break;
+        }
+    }
+    
+    if (checkbox.checked) {
+        checkbox.checked = false;
+        option.style.borderColor = 'transparent';
+        option.style.backgroundColor = 'white';
+        var idx2 = gameState.selectedValues[catId].indexOf(val);
+        if (idx2 > -1) gameState.selectedValues[catId].splice(idx2, 1);
+    } else {
+        if (gameState.selectedValues[catId].length < 3) {
+            checkbox.checked = true;
+            option.style.borderColor = cat.color;
+            option.style.backgroundColor = cat.bgColor;
+            gameState.selectedValues[catId].push(val);
+        }
+    }
+    
+    document.getElementById('count-' + catId).textContent = '(' + gameState.selectedValues[catId].length + ' selected)';
+    
+    var allOptions = document.querySelectorAll('[id^="val-' + catId + '-"]');
+    for (var i = 0; i < allOptions.length; i++) {
+        var opt = allOptions[i];
+        var cb = opt.querySelector('.value-checkbox');
+        if (gameState.selectedValues[catId].length >= 3 && !cb.checked) {
+            opt.style.opacity = '0.5';
+        } else {
+            opt.style.opacity = '1';
+        }
+    }
+    
+    var totalValues = 0;
+    for (var key in gameState.selectedValues) {
+        totalValues += gameState.selectedValues[key].length;
+    }
+    document.getElementById('values-count').textContent = totalValues;
+    
+    var allCategoriesHaveValues = true;
+    for (var i = 0; i < gameState.selectedCategories.length; i++) {
+        if (!gameState.selectedValues[gameState.selectedCategories[i]] || gameState.selectedValues[gameState.selectedCategories[i]].length < 2) {
+            allCategoriesHaveValues = false;
+            break;
+        }
+    }
+    
+    var nextBtn = document.getElementById('round2-next');
+    if (allCategoriesHaveValues) {
+        nextBtn.disabled = false;
+        nextBtn.style.cursor = 'pointer';
+        nextBtn.style.opacity = '1';
+    } else {
+        nextBtn.disabled = true;
+        nextBtn.style.cursor = 'not-allowed';
+        nextBtn.style.opacity = '0.5';
+    }
+}
+
+function nextToRound3() {
+    document.getElementById('round2').style.display = 'none';
+    document.getElementById('round3').style.display = 'block';
+    document.getElementById('progress-text').textContent = 'Round 3 of 3';
+    document.getElementById('progress-bar').style.width = '100%';
+    renderFinalSelection();
+}
+
+function renderFinalSelection() {
+    var allValues = [];
+    for (var key in gameState.selectedValues) {
+        allValues = allValues.concat(gameState.selectedValues[key]);
+    }
+    
+    var selectionDiv = document.getElementById('top5-selection');
+    var html = '';
+    for (var i = 0; i < allValues.length; i++) {
+        html += '<div class="top5-option" id="top5-' + i + '" onclick="toggleTop5(' + i + ', \'' + allValues[i].replace(/'/g, "\\'") + '\')" style="background: white; padding: 12px; border-radius: 6px; border: 2px solid #E0E0E0; text-align: center;">';
+        html += allValues[i];
+        html += '</div>';
+    }
+    selectionDiv.innerHTML = html;
+    selectionDiv.setAttribute('data-values', JSON.stringify(allValues));
+}
+
+function toggleTop5(idx, value) {
+    var option = document.getElementById('top5-' + idx);
+    var allValuesStr = document.getElementById('top5-selection').getAttribute('data-values');
+    var allValues = JSON.parse(allValuesStr);
+    
+    if (option.getAttribute('data-selected') === 'true') {
+        option.setAttribute('data-selected', 'false');
+        option.style.borderColor = '#E0E0E0';
+        option.style.backgroundColor = 'white';
+        option.style.fontWeight = 'normal';
+        var idx2 = gameState.top5Values.indexOf(value);
+        if (idx2 > -1) gameState.top5Values.splice(idx2, 1);
+    } else {
+        if (gameState.top5Values.length < 5) {
+            option.setAttribute('data-selected', 'true');
+            option.style.borderColor = '#00A65A';
+            option.style.backgroundColor = '#E8F5E9';
+            option.style.fontWeight = 'bold';
+            gameState.top5Values.push(value);
+        }
+    }
+    
+    document.getElementById('top5-count').textContent = gameState.top5Values.length;
+    
+    var finishBtn = document.getElementById('round3-finish');
+    if (gameState.top5Values.length === 5) {
+        finishBtn.disabled = false;
+        finishBtn.style.cursor = 'pointer';
+        finishBtn.style.opacity = '1';
+    } else {
+        finishBtn.disabled = true;
+        finishBtn.style.cursor = 'not-allowed';
+        finishBtn.style.opacity = '0.5';
+    }
+}
+
+function showResults() {
+    document.getElementById('round3').style.display = 'none';
+    document.getElementById('progress-container').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    
+    var resultsContent = document.getElementById('results-content');
+    var html = '<h2 style="color: #6D1E70; text-align: center; margin-bottom: 30px;">Your Top 5 Core Values</h2>';
+    html += '<div style="display: grid; gap: 20px;">';
+    
+    for (var i = 0; i < gameState.top5Values.length; i++) {
+        var val = gameState.top5Values[i];
+        html += '<div style="background: linear-gradient(135deg, #F3E5F5 0%, #FCE4EC 100%); padding: 30px; border-radius: 12px; border-left: 6px solid #C4007A;">';
+        html += '<div style="display: flex; align-items: center; margin-bottom: 10px;">';
+        html += '<div style="background: #C4007A; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3em; margin-right: 15px; font-weight: bold;">' + (i + 1) + '</div>';
+        html += '<h3 style="color: #6D1E70; font-size: 1.5em; margin: 0;">' + val + '</h3>';
+        html += '</div>';
+        html += '<p style="color: #58595B; line-height: 1.8; margin: 15px 0 0 55px;">This value represents something fundamental to who you are. Take time to reflect on what ' + val.toLowerCase() + ' means to you personally and how you can honor this value in your career choices.</p>';
+        html += '</div>';
+    }
+    
+    html += '</div>';
+    resultsContent.innerHTML = html;
+}
+
+function backToRound1() {
+    document.getElementById('round2').style.display = 'none';
+    document.getElementById('round1').style.display = 'block';
+    document.getElementById('progress-text').textContent = 'Round 1 of 3';
+    document.getElementById('progress-bar').style.width = '33%';
+}
+
+function backToRound2() {
+    document.getElementById('round3').style.display = 'none';
+    document.getElementById('round2').style.display = 'block';
+    document.getElementById('progress-text').textContent = 'Round 2 of 3';
+    document.getElementById('progress-bar').style.width = '66%';
+    gameState.top5Values = [];
+}
+
+function restartGame() {
+    gameState = {selectedCategories: [], selectedValues: {}, top5Values: []};
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('intro-screen').style.display = 'block';
+    document.getElementById('progress-container').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
